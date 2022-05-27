@@ -24,6 +24,8 @@ def workorders_by_emp_id(emp_id):
 
 
 @api.route('/workorder/<int:wo_num>', methods=['GET'])
+@token_required
+# access-token: 4b4e49abe3d2fc63f6bc2701203b8ae70a1e61d3937ddfe2ca5cd18ae9568cf6
 def workorder(wo_num):
     wo = WorkOrder.query.filter_by(id=wo_num).first()
     if wo:
@@ -33,6 +35,7 @@ def workorder(wo_num):
 
 
 @api.route('/workorder/create', methods=['POST'])
+@token_required
 def create_workorder():
     # NOTE TO REVIEWER:
     """When I return the wo_obj.to_dict() after it has been added to 
@@ -58,10 +61,11 @@ def create_workorder():
 
 
 
-@api.route('/workorder/update/<int:wo_num>', methods=['POST', 'PUT', ])
+@api.route('/workorder/update/<int:wo_num>', methods=['POST', 'PUT'])
+@token_required
+# access-token: 4b4e49abe3d2fc63f6bc2701203b8ae70a1e61d3937ddfe2ca5cd18ae9568cf6
 def update_workorder(wo_num):
     wo = WorkOrder.query.get(wo_num)
-    print(type(wo))
     if not wo:
         return jsonify({'error': f'workorder id: {wo_num} not found'})
     wo_new = r.get_json()
@@ -70,25 +74,13 @@ def update_workorder(wo_num):
     
     return jsonify({'updated': wo.to_dict()})
 
-
-@api.route('/animals', methods=['GET'])
-def get_animals():
-    
-    return jsonify([a.to_dict() for a in WorkOrder.query.all()]), 200
-    return jsonify({a.species: a.to_dict() for a in WorkOrder.query.all()}), 200
-
 @api.route('/workorder/delete/<int:wo_num>', methods=['DELETE'])
+@token_required
+# access-token: 4b4e49abe3d2fc63f6bc2701203b8ae70a1e61d3937ddfe2ca5cd18ae9568cf6
 def delete_workorder(wo_num):
     wo = WorkOrder.query.get(wo_num)
-    new_values = r.get_json()
     if wo: 
-        db.session.put(WorkOrder)
+        db.session.delete(wo)
         db.session.commit()
-        return jsonify({'workorder deleted': wo_num})
+        return jsonify({'workorder id deleted': wo_num})
     return jsonify({'error': 'no workorder deleted'}),404
-
-@api.route('/workorder/<int:wo_num>', methods=['put'])
-def put_workorder():
-    
-    
-    return jsonify({'key':'value'})

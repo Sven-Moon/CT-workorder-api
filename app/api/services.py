@@ -7,6 +7,7 @@ def token_required(api_route):
   def decorator_function(*args, **kwargs):
       token = request.headers.get('access-token')
       # can also request username to verify token presented belongs to right user
+      
       if not token:
           return jsonify({
               'Access denied': 'No API token, please register to receive your API token'}), 401
