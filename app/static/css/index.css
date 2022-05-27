@@ -1,0 +1,31 @@
+@import "./pages/home.css";
+@import "./pages/explorer.css";
+@import "./pages/display.css";
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+body {
+  padding: 1rem;
+  background-image: linear-gradient(to bottom right, rgb(240, 240, 240), rgb(203, 203, 203));
+}
+
+ul {
+  padding: 0;
+  list-style: none;
+  margin: 0;
+}
+
+li {
+  padding: 0;
+  margin: 0;
+}
+
+nav {
+  display: flex;
+  background-color: rgba(0, 0, 0, .2);
+  margin: -1rem;
+  margin-bottom: 1rem;
+}
