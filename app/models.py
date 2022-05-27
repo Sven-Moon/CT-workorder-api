@@ -37,12 +37,17 @@ class WorkOrder(db.Model):
     
     
     
-    def __init__(self,description,address,order_date=datetime.utcnow()):
-        self.description = description
-        self.address = address
-        self.order_date=order_date
+    def __init__(self,d):
+        for k,v in d.items():
+            getattr(self,k)
+            setattr(self,k,v)
         
     def to_dict(self):
         return {k:v for k,v in vars(self).items() if k != '_sa_instance_state'}
+
+    def update(self,d):
+        for k,v in d.items():
+            getattr(self,k)
+            setattr(self,k,v)
         
     
