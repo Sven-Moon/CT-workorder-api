@@ -23,3 +23,26 @@ class User(db.Model, UserMixin):
         self.username = username
         self.email = email.lower()
         self.password = generate_password_hash(password)
+                
+class WorkOrder(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    description = db.Column(db.String(255), nullable=False)
+    address = db.Column(db.String(100),nullable=False)
+    order_date = db.Column(db.DateTime, default=datetime.utcnow())
+    start_date = db.Column(db.DateTime)
+    comments = db.Column(db.String(1000))
+    labor_hours = db.Column(db.Float(1), default=0)
+    emp_id = db.Column(db.Integer)
+    status = db.Column(db.String(20),default='New')
+    
+    
+    
+    def __init__(self,description,address,order_date=datetime.utcnow()):
+        self.description = description
+        self.address = address
+        self.order_date=order_date
+        
+    def to_dict(self):
+        return {k:v for k,v in vars(self).items() if k != '_sa_instance_state'}
+        
+    
